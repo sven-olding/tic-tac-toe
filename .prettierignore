@@ -1,0 +1,17 @@
+# ignore all files
+*
+# except all files in this folder
+!
+*.css
+*.scss
+*.yaml
+/assets/groupui
+/assets/i18n
+/build/
+/node/
+/node_modules/
+/target/
+/coverage/
+/reports/
+/package-lock.json
+/config/
