@@ -1,12 +1,13 @@
-import { React, useState } from "react";
 import PropTypes from "prop-types";
+import { React, useState } from "react";
 
 Player.propTypes = {
     name: PropTypes.string.isRequired,
     symbol: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
 };
 
-export default function Player({ name, symbol }) {
+export default function Player({ name, symbol, isActive }) {
     const [editMode, setEditMode] = useState(false);
     const [playerName, setPlayerName] = useState(name);
 
@@ -32,7 +33,7 @@ export default function Player({ name, symbol }) {
     }
 
     return (
-        <li>
+        <li className={isActive ? "active" : undefined}>
             <span className="player">
                 {playerNameComponent}
                 <span className="player-symbol">{symbol}</span>
