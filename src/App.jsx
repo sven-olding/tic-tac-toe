@@ -47,7 +47,7 @@ function App() {
                     turns={gameTurns}
                 ></Gameboard>
             </div>
-            <Log></Log>
+            <Log turns={gameTurns}></Log>
         </main>
     );
 }
