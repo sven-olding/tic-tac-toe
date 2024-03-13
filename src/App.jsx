@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import Gameboard from "./components/Gameboard";
 import Log from "./components/Log";
 import Player from "./components/Player";
+import { WINNING_COMBINATIONS } from "./winning-combinations";
+
+const initialGameboard = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null],
+];
 
 function deriveActivePlayer(gameTurns) {
     let player = "X";
@@ -11,10 +18,39 @@ function deriveActivePlayer(gameTurns) {
     return player;
 }
 
+function getWinner(gameboard) {
+    for (const combination of WINNING_COMBINATIONS) {
+        const firstSquareSymbol =
+            gameboard[combination[0].row][combination[0].column];
+        const secondSquareSymbol =
+            gameboard[combination[1].row][combination[1].column];
+        const thirdSquareSymbol =
+            gameboard[combination[2].row][combination[2].column];
+        if (firstSquareSymbol) {
+            if (
+                firstSquareSymbol === secondSquareSymbol &&
+                secondSquareSymbol === thirdSquareSymbol
+            ) {
+                return firstSquareSymbol;
+            }
+        }
+    }
+    return null;
+}
+
 function App() {
     const [gameTurns, setGameTurns] = useState([]);
 
     const activePlayer = deriveActivePlayer(gameTurns);
+
+    let gameboard = initialGameboard;
+    if (gameTurns) {
+        gameTurns.map((turn) => {
+            gameboard[turn.square.row][turn.square.col] = turn.player;
+        });
+    }
+
+    const winner = getWinner(gameboard);
 
     const handleSelectSquare = (row, col) => {
         setGameTurns((prevTurns) => {
@@ -46,10 +82,11 @@ function App() {
                         isActive={activePlayer === "O"}
                     ></Player>
                 </ol>
+                {winner && <p>Winner is {winner}</p>}
                 <Gameboard
                     onSelectSquare={handleSelectSquare}
                     activePlayer={activePlayer}
-                    turns={gameTurns}
+                    gameboard={gameboard}
                 ></Gameboard>
             </div>
             <Log turns={gameTurns}></Log>

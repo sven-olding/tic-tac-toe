@@ -3,22 +3,10 @@ import React from "react";
 
 Gameboard.propTypes = {
     onSelectSquare: PropTypes.func.isRequired,
-    turns: PropTypes.array.isRequired,
+    gameboard: PropTypes.array.isRequired,
 };
 
-const initialGameboard = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null],
-];
-
-export default function Gameboard({ onSelectSquare, turns }) {
-    let gameboard = initialGameboard;
-    if (turns) {
-        turns.map((turn) => {
-            gameboard[turn.square.row][turn.square.col] = turn.player;
-        });
-    }
+export default function Gameboard({ onSelectSquare, gameboard }) {
     return (
         <ol id="game-board">
             {gameboard.map((row, rowIndex) => (
