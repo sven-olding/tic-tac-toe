@@ -39,18 +39,23 @@ function getWinner(gameboard) {
     return null;
 }
 
-function App() {
-    const [gameTurns, setGameTurns] = useState([]);
-    const [players, setPlayers] = useState({ X: "Player 1", O: "Player 2" });
-
-    const activePlayer = deriveActivePlayer(gameTurns);
-
+function getGameboard(gameTurns) {
     let gameboard = [...initialGameboard.map((array) => [...array])];
     if (gameTurns) {
         gameTurns.map((turn) => {
             gameboard[turn.square.row][turn.square.col] = turn.player;
         });
     }
+    return gameboard;
+}
+
+function App() {
+    const [gameTurns, setGameTurns] = useState([]);
+    const [players, setPlayers] = useState({ X: "Player 1", O: "Player 2" });
+
+    const activePlayer = deriveActivePlayer(gameTurns);
+
+    const gameboard = getGameboard(gameTurns);
 
     const winner = getWinner(gameboard);
     const winnerName = winner ? players[winner] : null;
