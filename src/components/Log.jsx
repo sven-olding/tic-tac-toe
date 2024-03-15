@@ -11,8 +11,8 @@ export default function Log({ turns }) {
             {turns &&
                 turns.map((turn, turnIndex) => (
                     <li key={turnIndex}>
-                        {turn.player} selected {turn.square.row},
-                        {turn.square.col}
+                        ({turn.player}) {turn.playerName} selected{" "}
+                        {turn.square.row},{turn.square.col}
                     </li>
                 ))}
         </ol>

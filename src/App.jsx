@@ -41,6 +41,7 @@ function getWinner(gameboard) {
 
 function App() {
     const [gameTurns, setGameTurns] = useState([]);
+    const [players, setPlayers] = useState({ X: "Player 1", O: "Player 2" });
 
     const activePlayer = deriveActivePlayer(gameTurns);
 
@@ -52,16 +53,19 @@ function App() {
     }
 
     const winner = getWinner(gameboard);
+    const winnerName = winner ? players[winner] : null;
     const draw = gameTurns.length === 9 && !winner;
 
     const handleSelectSquare = (row, col) => {
         setGameTurns((prevTurns) => {
             const player = deriveActivePlayer(prevTurns);
+            const playerName = players[player];
 
             const updatedTurns = [
                 {
                     square: { row: row, col: col },
                     player: player,
+                    playerName: playerName,
                 },
                 ...prevTurns,
             ];
@@ -73,6 +77,15 @@ function App() {
         setGameTurns([]);
     }
 
+    function handlePlayerNameChange(symbol, playerName) {
+        setPlayers((prevPlayers) => {
+            return {
+                ...prevPlayers,
+                [symbol]: playerName,
+            };
+        });
+    }
+
     return (
         <main>
             <div id="game-container">
@@ -81,16 +94,18 @@ function App() {
                         name="Player 1"
                         symbol="X"
                         isActive={activePlayer === "X"}
+                        onPlayerNameChange={handlePlayerNameChange}
                     ></Player>
                     <Player
                         name="Player 2"
                         symbol="O"
                         isActive={activePlayer === "O"}
+                        onPlayerNameChange={handlePlayerNameChange}
                     ></Player>
                 </ol>
                 {(winner || draw) && (
                     <GameOver
-                        winner={winner}
+                        winner={winnerName}
                         onRestart={handleRestart}
                     ></GameOver>
                 )}
